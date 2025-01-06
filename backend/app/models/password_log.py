@@ -1,16 +1,18 @@
-
 """
 File: backend/app/models/password_log.py
 Purpose: SQLAlchemy model for password generation logs
 """
 
-from sqlalchemy import Column, Integer, DateTime
-from datetime import datetime
+from sqlalchemy import Column, Integer, DateTime, String
+from sqlalchemy.sql import func
+from app.database import Base
 
-# TODO: Import database base class
+class PasswordLog(Base):
+    __tablename__ = "password_logs"
 
-class PasswordLog:
-    # TODO: Define table columns
-    # - id
-    # - timestamp
-    pass
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())
+    length = Column(Integer)
+    has_uppercase = Column(String)
+    has_symbols = Column(String)
+    has_numbers = Column(String)
