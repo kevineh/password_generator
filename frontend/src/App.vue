@@ -61,7 +61,7 @@ export default {
     },
     async generatePassword() {
       try {
-        const response = await fetch('http://localhost:8000/api/generate', {
+        const response = await fetch('/api/generate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -77,9 +77,8 @@ export default {
     async handleCopy() {
       if (this.generatedPassword) {
         await navigator.clipboard.writeText(this.generatedPassword)
-        // Log the copy action
         try {
-          await fetch('http://localhost:8000/api/log', {
+          await fetch('/api/log', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -93,6 +92,7 @@ export default {
           console.error('Failed to log password copy:', error)
         }
       }
-    }  }
+    }
+  }
 }
 </script>
