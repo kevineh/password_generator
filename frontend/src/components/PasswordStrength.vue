@@ -1,13 +1,14 @@
-
 <template>
-  <div class="space-y-2">
+  <div class="bg-gray-50 rounded-xl shadow-inner p-6 space-y-3">
     <div class="flex justify-between items-center">
-      <span class="text-sm text-gray-600">Password Strength</span>
-      <span class="text-sm font-medium" :class="strengthColor">{{ strengthText }}</span>
+      <span class="text-sm font-medium text-gray-600">Password Strength</span>
+      <span class="text-sm font-medium px-3 py-1 rounded-full" :class="strengthBadgeColor">
+        {{ strengthText }}
+      </span>
     </div>
-    <div class="h-2 w-full bg-gray-200 rounded-full">
+    <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
       <div
-        class="h-full rounded-full transition-all duration-300"
+        class="h-full transition-all duration-500 ease-out"
         :class="strengthColor"
         :style="{ width: `${strengthPercentage}%` }"
       ></div>
@@ -40,11 +41,21 @@ export default {
     },
     strengthColor() {
       const colors = {
-        0: 'text-red-500 bg-red-500',
-        1: 'text-orange-500 bg-orange-500',
-        2: 'text-yellow-500 bg-yellow-500',
-        3: 'text-blue-500 bg-blue-500',
-        4: 'text-green-500 bg-green-500'
+        0: 'bg-red-500',
+        1: 'bg-orange-500',
+        2: 'bg-yellow-500',
+        3: 'bg-blue-500',
+        4: 'bg-green-500'
+      }
+      return colors[this.strength]
+    },
+    strengthBadgeColor() {
+      const colors = {
+        0: 'bg-red-100 text-red-800',
+        1: 'bg-orange-100 text-orange-800',
+        2: 'bg-yellow-100 text-yellow-800',
+        3: 'bg-blue-100 text-blue-800',
+        4: 'bg-green-100 text-green-800'
       }
       return colors[this.strength]
     }

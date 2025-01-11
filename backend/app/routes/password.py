@@ -2,6 +2,7 @@
 File: backend/app/routes/password.py
 Purpose: API endpoints for password generation and logging
 """
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import Dict
@@ -21,17 +22,6 @@ async def generate_password(options: Dict, db: Session = Depends(get_db)):
             use_symbols=options.get("useSymbols", True),
             use_numbers=options.get("useNumbers", True),
         )
-
-        # Log the generation
-        log = PasswordLog(
-            length=options.get("length"),
-            has_uppercase=str(options.get("useUppercase")),
-            has_symbols=str(options.get("useSymbols")),
-            has_numbers=str(options.get("useNumbers")),
-        )
-        db.add(log)
-        db.commit()
-
         return {"password": password}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -40,6 +30,8 @@ async def generate_password(options: Dict, db: Session = Depends(get_db)):
 
 
 @router.post("/log")
-async def log_password_generation():
-    # TODO: Implement timestamp logging
-    pass
+async def log_password_generation(log_data: Dict, db: Session = Depends(get_db)):
+    log = PasswordLog(password=log_data.get("password"))
+    db.add(log)
+    db.commit()
+    return {"status": "success"}
